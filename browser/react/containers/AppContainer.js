@@ -111,17 +111,16 @@ export default class AppContainer extends Component {
         <div className="col-xs-10">
         {
           this.props.children ?
-          React.cloneElement(this.props.children, {
-            album: this.state.selectedAlbum,
-            currentSong: this.state.currentSong,
-            isPlaying: this.state.isPlaying,
-            toggleOne: this.toggleOne,
-            
-            albums: this.state.albums, 
-            selectAlbum: this.selectAlbum
-          })
-          
-          : null
+            React.cloneElement(this.props.children, {
+              album: this.state.selectedAlbum,
+              currentSong: this.state.currentSong,
+              isPlaying: this.state.isPlaying,
+              toggleOne: this.toggleOne,
+
+              albums: this.state.albums,
+              selectAlbum: this.selectAlbum
+            })
+            : null
         }
         </div>
         <Player
@@ -139,6 +138,3 @@ export default class AppContainer extends Component {
 }
 
           // this.state.selectedAlbum.id ?
-          
-           
-    
