@@ -14,6 +14,14 @@ export const convertAlbums = (albums) =>
 
 const mod = (num, m) => ((num % m) + m) % m;
 
+export const convertArtist = (artist, albums, songs) => {
+  albums = albums.map(convertAlbum);
+  songs = songs.map(convertSong);
+  artist.albums = albums;
+  artist.songs = songs;
+  return artist;
+}
+
 export const skip = (interval, { currentSongList, currentSong }) => {
   let idx = currentSongList.map(song => song.id).indexOf(currentSong.id);
   idx = mod(idx + interval, currentSongList.length);

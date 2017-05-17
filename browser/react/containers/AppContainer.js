@@ -9,7 +9,7 @@ import Album from '../components/Album';
 import Sidebar from '../components/Sidebar';
 import Player from '../components/Player';
 
-import { convertAlbum, convertAlbums, skip } from '../utils';
+import { convertAlbum, convertAlbums, convertArtist, skip } from '../utils';
 
 export default class AppContainer extends Component {
 
@@ -96,11 +96,15 @@ export default class AppContainer extends Component {
   }
 
   selectArtist(artistId){
-    axios.get(`/api/artists/${artistId}`)
-      .then(response => response.data)
-      .then(artist => this.setState({
-        selectedArtist: artist
-      }))
+    const gettingArtist = axios.get(`/api/artists/${artistId}`)
+    const gettingArtistAlbums = axios.get(`/api/artists/${artistId}/albums`)
+    const gettingArtistSongs = axios.get(`/api/artists/${artistId}/songs`)
+
+    Promise.all([gettingArtist, gettingArtistAlbums, gettingArtistSongs])
+      .then(([resArtist, resAlbums, resSongs]) => [resArtist.data, resAlbums.data, resSongs.data])
+      .then(([artist, albums, songs]) => {
+        this.setState({selectedArtist: convertArtist(artist, albums, songs)});
+      })
       .catch(console.error.bind(console));
   }
 
