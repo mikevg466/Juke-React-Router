@@ -23,6 +23,7 @@ export default class AppContainer extends Component {
     this.prev = this.prev.bind(this);
     this.selectAlbum = this.selectAlbum.bind(this);
     this.deselectAlbum = this.deselectAlbum.bind(this);
+    this.selectArtist = this.selectArtist.bind(this);
   }
 
   componentDidMount () {
@@ -94,8 +95,16 @@ export default class AppContainer extends Component {
     this.setState({ progress: progress });
   }
 
+  selectArtist(artistId){
+    axios.get(`/api/artists/${artistId}`)
+      .then(response => response.data)
+      .then(artist => this.setState({
+        selectedArtist: artist
+      }))
+      .catch(console.error.bind(console));
+  }
+
   selectAlbum (albumId) {
-    console.log('here', albumId);
     axios.get(`/api/albums/${albumId}`)
       .then(res => res.data)
       .then(album => this.setState({
@@ -125,7 +134,8 @@ export default class AppContainer extends Component {
               albums: this.state.albums,
               selectAlbum: this.selectAlbum,
               artists: this.state.artists,
-              selectedArtist: this.state.selectedArtist
+              selectedArtist: this.state.selectedArtist,
+              selectArtist: this.selectArtist
 
             })
             : null
